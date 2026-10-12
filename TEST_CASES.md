@@ -12,7 +12,7 @@
 | Test Case ID | Test Scenario | Actual Result | Status |
 |---|---|---|---|
 | TC_001 | Launch application | Website opened successfully | PASS |
-| TC_002 | Verify page heading | Not yet verified separately | PENDING |
+| TC_002 | Verify page heading | Healthcare Appointment System heading was displayed correctly | PASS |
 | TC_003 | Book an appointment | Appointment was added successfully | PASS |
 | TC_004 | Submit without patient name | Validation message appeared and submission was prevented | PASS |
 | TC_005 | Select a doctor | Selected doctor displayed correctly | PASS |
