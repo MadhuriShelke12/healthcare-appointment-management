@@ -22,7 +22,23 @@
 | TC_010 | Responsive layout | Open the website in a narrow browser window | Form remains usable |
 
 ## Execution Status
-These test cases are documented but not yet executed. Update the actual results and Pass/Fail status after testing.
+## Execution Results
+
+| Test Case ID | Actual Result | Status |
+|---|---|---|
+| TC_001 | Website opened successfully | PASS |
+| TC_003 | Appointment booking succeeded | PASS |
+| TC_004 | Empty patient name was rejected | PASS |
+| TC_005 | Doctor selection worked correctly | PASS |
+| TC_006 | Appointment date displayed correctly | PASS |
+| TC_007 | Appointment details matched the entered data | PASS |
+| TC_008 | Multiple appointments appeared before refreshing | PASS |
+| TC_009 | Appointment disappeared after refresh | Known limitation |
+| TC_010 | Form remained usable in a narrow browser window | PASS |
+
+**Note:** Appointments are not saved permanently in the current front-end prototype. Persistent storage is a future enhancement.
+
+TC_002 (page heading) still needs a separate check if you haven't verified it.
 
 ## Limitations
 This is a front-end prototype. Backend, API and database testing are not yet implemented.
