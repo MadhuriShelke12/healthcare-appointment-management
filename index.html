@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Appointment System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f5fa;
+            margin: 0;
+            color: #24364b;
+        }
+        header {
+            background: #087f8c;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+        main {
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #087f8c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #message { color: #087f8c; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Healthcare Appointment System</h1>
+        <p>Book your doctor appointment easily</p>
+    </header>
+    <main>
+        <h2>Book an Appointment</h2>
+        <form id="appointmentForm">
+            <label>Patient Name</label>
+            <input id="patient" required placeholder="Enter your name">
+
+            <label>Choose Doctor</label>
+            <select id="doctor" required>
+                <option value="">Select doctor</option>
+                <option>Dr. Sharma - General Physician</option>
+                <option>Dr. Patel - Dermatologist</option>
+                <option>Dr. Deshmukh - Dentist</option>
+            </select>
+
+            <label>Appointment Date</label>
+            <input id="date" type="date" required>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+        <p id="message"></p>
+        <h2>Appointment List</h2>
+        <ul id="appointments"></ul>
+    </main>
+
+    <script>
+        const form = document.getElementById("appointmentForm");
+        const list = document.getElementById("appointments");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const patient = document.getElementById("patient").value;
+            const doctor = document.getElementById("doctor").value;
+            const date = document.getElementById("date").value;
+
+            const item = document.createElement("li");
+            item.textContent = patient + " - " + doctor + " - " + date;
+            list.appendChild(item);
+
+            document.getElementById("message").textContent =
+                "Appointment added successfully!";
+            form.reset();
+        });
+    </script>
+</body>
+</html>
