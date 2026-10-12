@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthcare Appointment System</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,25 +13,31 @@
             margin: 0;
             color: #24364b;
         }
+
         header {
             background: #087f8c;
             color: white;
             text-align: center;
             padding: 25px;
         }
+
         main {
             max-width: 650px;
+            width: calc(100% - 32px);
+            box-sizing: border-box;
             margin: 30px auto;
             padding: 25px;
             background: white;
             border-radius: 12px;
         }
+
         input, select, button {
             width: 100%;
             padding: 12px;
             margin: 8px 0 16px;
             box-sizing: border-box;
         }
+
         button {
             background: #087f8c;
             color: white;
@@ -38,21 +45,41 @@
             border-radius: 6px;
             cursor: pointer;
         }
-        #message { color: #087f8c; }
+
+        #message {
+            color: #087f8c;
+            font-weight: bold;
+        }
+
+        #appointments {
+            padding-left: 22px;
+        }
+
+        #appointments li {
+            margin: 12px 0;
+            overflow-wrap: anywhere;
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Healthcare Appointment System</h1>
         <p>Book your doctor appointment easily</p>
     </header>
+
     <main>
         <h2>Book an Appointment</h2>
-        <form id="appointmentForm">
-            <label>Patient Name</label>
-            <input id="patient" required placeholder="Enter your name">
 
-            <label>Choose Doctor</label>
+        <form id="appointmentForm">
+            <label for="patient">Patient Name</label>
+            <input
+                id="patient"
+                required
+                placeholder="Enter your name"
+            >
+
+            <label for="doctor">Choose Doctor</label>
             <select id="doctor" required>
                 <option value="">Select doctor</option>
                 <option>Dr. Sharma - General Physician</option>
@@ -60,12 +87,14 @@
                 <option>Dr. Deshmukh - Dentist</option>
             </select>
 
-            <label>Appointment Date</label>
+            <label for="date">Appointment Date</label>
             <input id="date" type="date" required>
 
             <button type="submit">Book Appointment</button>
         </form>
-        <p id="message"></p>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
         <h2>Appointment List</h2>
         <ul id="appointments"></ul>
     </main>
@@ -73,21 +102,96 @@
     <script>
         const form = document.getElementById("appointmentForm");
         const list = document.getElementById("appointments");
+        const message = document.getElementById("message");
 
+        const STORAGE_KEY = "healthcareAppointments";
+
+        // Load previously saved appointments from this browser.
+        function loadAppointments() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                const data = saved ? JSON.parse(saved) : [];
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        let appointments = loadAppointments();
+
+        // Display every saved appointment.
+        function renderAppointments() {
+            list.replaceChildren();
+
+            if (appointments.length === 0) {
+                const emptyItem = document.createElement("li");
+                emptyItem.textContent = "No appointments booked yet.";
+                list.appendChild(emptyItem);
+                return;
+            }
+
+            appointments.forEach(function(appointment) {
+                const item = document.createElement("li");
+
+                item.textContent =
+                    appointment.patient + " - " +
+                    appointment.doctor + " - " +
+                    appointment.date;
+
+                list.appendChild(item);
+            });
+        }
+
+        // Show saved appointments when the page opens.
+        renderAppointments();
+
+        // Save each new appointment.
         form.addEventListener("submit", function(event) {
             event.preventDefault();
 
-            const patient = document.getElementById("patient").value;
-            const doctor = document.getElementById("doctor").value;
-            const date = document.getElementById("date").value;
+            const patient =
+                document.getElementById("patient").value.trim();
 
-            const item = document.createElement("li");
-            item.textContent = patient + " - " + doctor + " - " + date;
-            list.appendChild(item);
+            const doctor =
+                document.getElementById("doctor").value;
 
-            document.getElementById("message").textContent =
-                "Appointment added successfully!";
-            form.reset();
+            const date =
+                document.getElementById("date").value;
+
+            if (!patient || !doctor || !date) {
+                message.textContent =
+                    "Please fill in all appointment details.";
+                return;
+            }
+
+            const newAppointment = {
+                patient: patient,
+                doctor: doctor,
+                date: date
+            };
+
+            const updatedAppointments = [
+                ...appointments,
+                newAppointment
+            ];
+
+            try {
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(updatedAppointments)
+                );
+
+                appointments = updatedAppointments;
+                renderAppointments();
+
+                message.textContent =
+                    "Appointment added successfully!";
+
+                form.reset();
+            } catch (error) {
+                message.textContent =
+                    "Could not save appointment in this browser.";
+            }
         });
     </script>
 </body>
