@@ -18,7 +18,7 @@
 | TC_006 | Select appointment date | Choose a valid date | Selected date is displayed |
 | TC_007 | Verify appointment details | Book an appointment and check the list | Entered details are displayed correctly |
 | TC_008 | Multiple appointments | Book two appointments | Both appointments are displayed |
-| TC_009 | Refresh the page | Book an appointment and refresh | Observe whether the appointment remains |
+| TC_009 | Appointments remained visible after refreshing the page | PASS |
 | TC_010 | Responsive layout | Open the website in a narrow browser window | Form remains usable |
 
 ## Execution Status
